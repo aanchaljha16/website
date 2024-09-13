@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Dashboard</title>
+    <style>
+        :root {
+            --primary-accent: #072f75;
+            --light-background: #F8F9FA;
+            --white: #FFFFFF;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--light-background);
+            margin: 0;
+            padding: 0;
+            color: #072f75;
+        }
+        header{
+            background-color: #072f75;
+            color: white;
+            text-align: center;
+        }
+        footer {
+            background-color: #072f75;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        footer {
+            margin-top: 30px;
+        }
+
+        .dashboard-header,
+        .employee-header {
+            font-size: 24px;
+            color: var(--primary-accent);
+            margin-bottom: 20px;
+        }
+        .dashboard-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: var(--primary-accent);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .team-box {
+            background-color: var(--light-background);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 45%;
+            padding: 20px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .team-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        h3 {
+            color: var(--primary-accent);
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid var(--primary-accent);
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        .project-details {
+            display: none;
+            background-color: var(--light-background);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 10px;
+            text-align: left;
+            width: 100%;
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            z-index: 1;
+        }
+
+        .progress-graph {
+            margin-top: 10px;
+            background-color: var(--primary-accent);
+            height: 25px;
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        .progress-bar {
+            background-color: var(--white);
+            height: 100%;
+            text-align: right;
+            padding-right: 5px;
+            line-height: 25px;
+            color: var(--primary-accent);
+        }
+        .navbar {
+            background-color:#072f75;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+        }
+
+        .navbar-left img {
+            width: 90px;
+            height: 90px;
+            margin-right: 10px;
+        }
+
+        .navbar-left h1 {
+            color: var(--white);
+            font-size: 24px;
+            margin: 0;
+        }
+
+
+        .logout-btn {
+            background-color: var(--white);
+            color: var(--primary-accent);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 20px;
+        }
+
+        .logout-btn:hover {
+            background-color: var(--light-background);
+            color: var(--primary-accent);
+        }
+
+        @media (max-width: 768px) {
+            .team-box {
+                width: 100%;
+            }
+        }
+        .admin-box {
+            background-color: var(--light-background);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 45%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .admin-box img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            margin-bottom: 15px;
+        }
+
+        .admin-details {
+            text-align: left;
+        }
+
+        .admin-details h4 {
+            color: var(--primary-accent);
+            margin-bottom: 10px;
+        }
+
+        .admin-details p {
+            margin: 5px 0;
+            color: var(--primary-accent);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="navbar-left">
+                <img src="logo.png" alt="Logo">
+            </div>
+            <a href="index.html" class="logout-btn">Logout</a>
+        </nav>
+    </header>
+    <h1 style="text-align: center;">Employee dashboard</h1>
+
+    <div class="dashboard-container">
+        <div class="admin-box">
+            <img src="employee.JPG" alt="Admin Photo">
+            <div class="admin-details">
+                <h4>Admin Details</h4>
+                <p>Name: John Doe</p>
+                <p>Email: john.doe@example.com</p>
+                <p>Role: Administrator</p>
+                <p>Phone: +123 456 7890</p>
+                <p>Office: HQ - Floor 2</p>
+            </div>
+        </div>
+        <div class="team-box" onclick="toggleDetails('projects-details', this)">
+            <h3>Project Overview</h3>
+            <table>
+                <tr>
+                    <th>Project Name</th>
+                    <th>Completion Date</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                </tr>
+                <tr>
+                    <td>Website Redesign</td>
+                    <td>2024-10-15</td>
+                    <td>In Progress</td>
+                    <td>High</td>
+                </tr>
+                <tr>
+                    <td>Marketing Campaign</td>
+                    <td>2024-11-01</td>
+                    <td>Not Started</td>
+                    <td>Medium</td>
+                </tr>
+                <tr>
+                    <td>SEO Optimization</td>
+                    <td>2024-12-10</td>
+                    <td>Upcoming</td>
+                    <td>Medium</td>
+                </tr>
+                <tr>
+                    <td>Branding Campaign</td>
+                    <td>2025-01-15</td>
+                    <td>Upcoming</td>
+                    <td>High</td>
+                </tr>
+            </table>
+
+            <div class="project-details" id="projects-details">
+                <h4>Current Projects:</h4>
+                <p>1. Website Redesign: Enhancing the website for better user experience.</p>
+                <p>2. Marketing Campaign: Running a new marketing campaign to boost engagement.</p>
+                <h4>Upcoming Projects:</h4>
+                <p>1. SEO Optimization: Improving the search engine visibility of our website.</p>
+                <p>2. Branding Campaign: Creating a new branding strategy for the product line.</p>
+                <h4>Progress</h4>
+                <div class="progress-graph">
+                    <div class="progress-bar" style="width: 65%;">65%</div>
+                </div>
+            </div>
+        </div>
+        <div class="team-box" onclick="toggleDetails('hr-management-details', this)">
+            <h3>HR Management</h3>
+            <table>
+                <tr>
+                    <th>Function</th>
+                    <th>Details</th>
+                </tr>
+                <tr>
+                    <td>Leave Requests</td>
+                    <td><a href="#">Manage Leave Requests</a></td>
+                </tr>
+                <tr>
+                    <td>Benefits</td>
+                    <td><a href="#">View Benefits</a></td>
+                </tr>
+                <tr>
+                    <td>Payslip Download</td>
+                    <td><a href="#">Download Payslips</a></td>
+                </tr>
+                <tr>
+                    <td>Tax Documents</td>
+                    <td><a href="#">Access Tax Documents</a></td>
+                </tr>
+                <tr>
+                    <td>Personal Information</td>
+                    <td><a href="#">Update Personal Information</a></td>
+                </tr>
+            </table>
+            <div class="project-details" id="hr-management-details">
+                <h4>HR Management Details</h4>
+                <p>Access various HR-related functions to manage your leave requests, view benefits, download payslips,
+                    access tax documents, and update your personal information.</p>
+            </div>
+        </div>
+        <div class="team-box" onclick="toggleDetails('kpis-details', this)">
+            <h3>KPIs & Performance Metrics</h3>
+            <table>
+                <tr>
+                    <th>Type</th>
+                    <th>Details</th>
+                </tr>
+                <tr>
+                    <td>Personal Goals</td>
+                    <td><a href="#">View Personal Goals</a></td>
+                </tr>
+                <tr>
+                    <td>Quarterly Reviews</td>
+                    <td><a href="#">View Quarterly Reviews</a></td>
+                </tr>
+                <tr>
+                    <td>Feedback</td>
+                    <td><a href="#">View Feedback from Team Leads</a></td>
+                </tr>
+            </table>
+
+            <div class="project-details" id="kpis-details">
+                <h4>KPIs and Performance Metrics Details</h4>
+                <p>Review your personal goals, access quarterly performance reviews, and view feedback from team leads
+                    or managers to track your progress and improve performance.</p>
+            </div>
+        </div>
+        <div class="team-box" onclick="toggleDetails('development-details', this)">
+            <h3>Professional Development</h3>
+            <table>
+                <tr>
+                    <th>Resource</th>
+                    <th>Link</th>
+                </tr>
+                <tr>
+                    <td>Online Courses</td>
+                    <td><a href="#">Explore Courses</a></td>
+                </tr>
+                <tr>
+                    <td>Certifications</td>
+                    <td><a href="#">View Certifications</a></td>
+                </tr>
+                <tr>
+                    <td>Training Sessions</td>
+                    <td><a href="#">Register for Training</a></td>
+                </tr>
+                <tr>
+                    <td>Progress Tracking</td>
+                    <td><a href="#">Track Progress</a></td>
+                </tr>
+            </table>
+
+            <div class="project-details" id="development-details">
+                <h4>Professional Development Details</h4>
+                <p>Access resources for ongoing professional development including online courses, certifications,
+                    training sessions, and progress tracking to enhance your skills and career growth.</p>
+            </div>
+        </div>
+        <div class="team-box" onclick="toggleDetails('reports-details', this)">
+            <h3>Reports & Analytics</h3>
+            <table>
+                <tr>
+                    <th>Report Type</th>
+                    <th>Link</th>
+                </tr>
+                <tr>
+                    <td>Project Performance</td>
+                    <td><a href="#">View Project Performance Reports</a></td>
+                </tr>
+                <tr>
+                    <td>Team Contributions</td>
+                    <td><a href="#">View Team Contributions Reports</a></td>
+                </tr>
+                <tr>
+                    <td>Sales Achievements</td>
+                    <td><a href="#">View Sales Achievements Reports</a></td>
+                </tr>
+            </table>
+
+            <div class="project-details" id="reports-details">
+                <h4>Reports & Analytics Details</h4>
+                <p>Generate or view detailed reports related to project performance, team contributions, or sales
+                    achievements to make data-driven decisions and monitor progress.</p>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>© 2024 META - Task Management System</p>
+    </footer>
+
+    <script>
+        function toggleDetails(detailsId, element) {
+            const details = document.getElementById(detailsId);
+            if (details.style.display === 'none' || details.style.display === '') {
+                details.style.display = 'block';
+            } else {
+                details.style.display = 'none';
+            }
+        }
+    </script>
+
+</body>
+
+</html>
